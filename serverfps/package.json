@@ -1,0 +1,19 @@
+{
+	"name": "mmosvr",
+	"version": "0.0.1",
+	"private": true,
+	"dependencies": {
+		"mongoose": "*",
+		"redis": "*",
+		"cluster-node-cache": "*"
+	},
+	"bin": "server.js",
+	"pkg": {
+		"assets": [
+			"views/**/*"
+		],
+		"targets": [
+			"node7"
+		]
+	}
+}

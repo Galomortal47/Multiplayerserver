@@ -1,0 +1,214 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://scripts/Login.gd" type="Script" id=1]
+[ext_resource path="res://font/new_dynamicfont.tres" type="DynamicFont" id=2]
+[ext_resource path="res://scripts/Reload.gd" type="Script" id=3]
+[ext_resource path="res://scripts/RegisterLogin.gd" type="Script" id=4]
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 0.735107
+margin_right = 0.735107
+__meta__ = {
+"_edit_horizontal_guides_": [ -0.999805 ]
+}
+
+[node name="Login" type="Container" parent="."]
+margin_left = 512.0
+margin_top = 280.0
+margin_right = 712.0
+margin_bottom = 480.0
+script = ExtResource( 1 )
+
+[node name="Login" type="Control" parent="Login"]
+visible = false
+margin_top = 60.0
+margin_right = 40.0
+margin_bottom = 100.0
+
+[node name="Label" type="Label" parent="Login/Login"]
+margin_left = -176.168
+margin_top = -6.46616
+margin_right = -108.168
+margin_bottom = 92.5338
+rect_scale = Vector2( 0.5, 0.5 )
+rect_pivot_offset = Vector2( 31.3898, -41.86 )
+custom_fonts/font = ExtResource( 2 )
+text = "username:"
+align = 1
+valign = 1
+autowrap = true
+
+[node name="Label4" type="Label" parent="Login/Login"]
+margin_left = -175.0
+margin_top = 24.5909
+margin_right = -107.0
+margin_bottom = 123.591
+rect_scale = Vector2( 0.5, 0.5 )
+rect_pivot_offset = Vector2( 31.3898, -41.86 )
+custom_fonts/font = ExtResource( 2 )
+text = "password:"
+align = 1
+valign = 1
+autowrap = true
+
+[node name="username_enter" type="TextEdit" parent="Login/Login"]
+margin_left = -100.0
+margin_top = -30.0
+margin_right = 300.0
+margin_bottom = 20.0
+rect_scale = Vector2( 0.5, 0.5 )
+custom_fonts/font = ExtResource( 2 )
+text = "username"
+
+[node name="password_enter" type="TextEdit" parent="Login/Login"]
+margin_left = -100.0
+margin_right = 300.0
+margin_bottom = 50.0
+rect_scale = Vector2( 0.5, 0.5 )
+custom_fonts/font = ExtResource( 2 )
+text = "password"
+
+[node name="Login" type="Button" parent="Login/Login"]
+margin_left = -27.2737
+margin_top = 36.4139
+margin_right = 77.7268
+margin_bottom = 90.4139
+rect_scale = Vector2( 0.5, 0.5 )
+custom_fonts/font = ExtResource( 2 )
+text = "Login"
+
+[node name="Join" type="Button" parent="Login/Login"]
+margin_left = 46.9701
+margin_top = 37.149
+margin_right = 151.971
+margin_bottom = 91.149
+rect_scale = Vector2( 0.5, 0.5 )
+custom_fonts/font = ExtResource( 2 )
+text = "Join"
+
+[node name="Register" type="Button" parent="Login/Login"]
+margin_left = -100.918
+margin_top = 36.4139
+margin_right = 6.08203
+margin_bottom = 90.4139
+rect_scale = Vector2( 0.5, 0.5 )
+custom_fonts/font = ExtResource( 2 )
+text = "Register"
+
+[node name="Reload" type="Button" parent="Login/Login"]
+margin_left = 432.497
+margin_top = 213.268
+margin_right = 542.497
+margin_bottom = 268.268
+rect_scale = Vector2( 0.5, 0.5 )
+custom_fonts/font = ExtResource( 2 )
+text = "Reload"
+script = ExtResource( 3 )
+
+[node name="Server" type="Control" parent="Login"]
+editor/display_folded = true
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="Label2" type="Label" parent="Login/Server"]
+margin_left = -208.69
+margin_top = 25.12
+margin_right = -7.82001
+margin_bottom = 106.18
+rect_scale = Vector2( 0.5, 0.5 )
+custom_fonts/font = ExtResource( 2 )
+text = "server Address:"
+align = 1
+valign = 1
+autowrap = true
+
+[node name="Label3" type="Label" parent="Login/Server"]
+margin_left = -156.42
+margin_top = 63.38
+margin_right = -32.36
+margin_bottom = 113.38
+rect_scale = Vector2( 0.5, 0.5 )
+custom_fonts/font = ExtResource( 2 )
+text = "Port:"
+align = 1
+valign = 1
+autowrap = true
+
+[node name="ip" type="TextEdit" parent="Login/Server"]
+margin_left = -100.0
+margin_top = 30.0001
+margin_right = 300.0
+margin_bottom = 80.0001
+rect_scale = Vector2( 0.5, 0.5 )
+custom_fonts/font = ExtResource( 2 )
+text = "127.0.0.1"
+
+[node name="port" type="TextEdit" parent="Login/Server"]
+margin_left = -100.0
+margin_top = 61.63
+margin_right = 300.0
+margin_bottom = 111.63
+rect_scale = Vector2( 0.5, 0.5 )
+custom_fonts/font = ExtResource( 2 )
+text = "8082"
+
+[node name="Local" type="Button" parent="Login/Server"]
+visible = false
+margin_left = -23.5358
+margin_top = 103.0
+margin_right = 49.4642
+margin_bottom = 157.0
+rect_scale = Vector2( 0.5, 0.5 )
+custom_fonts/font = ExtResource( 2 )
+text = "Local"
+
+[node name="TCP-UDP" type="Button" parent="Login/Server"]
+visible = false
+margin_left = 113.644
+margin_top = 70.751
+margin_right = 186.644
+margin_bottom = 124.751
+rect_scale = Vector2( 0.5, 0.5 )
+custom_fonts/font = ExtResource( 2 )
+text = "TCP"
+
+[node name="MenuButton" type="MenuButton" parent="Login/Server"]
+margin_left = 110.0
+margin_top = 30.0
+margin_right = 203.0
+margin_bottom = 84.0
+rect_scale = Vector2( 0.5, 0.5 )
+custom_fonts/font = ExtResource( 2 )
+text = "IP LIST"
+flat = false
+
+[node name="Connect" type="Button" parent="Login/Server"]
+margin_left = -30.0
+margin_top = 103.0
+margin_right = 75.0005
+margin_bottom = 157.0
+rect_scale = Vector2( 0.5, 0.5 )
+custom_fonts/font = ExtResource( 2 )
+text = "Connect"
+
+[node name="server_message" type="Label" parent="Login"]
+margin_left = -97.36
+margin_right = -57.36
+margin_bottom = 48.0
+rect_scale = Vector2( 0.5, 0.5 )
+custom_fonts/font = ExtResource( 2 )
+
+[node name="RegisterLogin" type="Spatial" parent="Login"]
+visible = false
+script = ExtResource( 4 )
+
+[connection signal="button_down" from="Login/Login/Login" to="Login" method="_on_Login_button_down"]
+[connection signal="button_down" from="Login/Login/Join" to="Login" method="_on_Join_button_down"]
+[connection signal="button_down" from="Login/Login/Register" to="Login" method="_on_Register_button_down"]
+[connection signal="button_down" from="Login/Login/Reload" to="Login/Login/Reload" method="_on_Reload_button_down"]
+[connection signal="button_down" from="Login/Server/Local" to="Login" method="_on_Button2_button_down"]
+[connection signal="button_down" from="Login/Server/TCP-UDP" to="Login" method="_on_TCP_button_down"]
+[connection signal="button_down" from="Login/Server/Connect" to="Login" method="_on_Connect_button_down"]
+[connection signal="button_down" from="Login/Server/Connect" to="Login/RegisterLogin" method="_on_Connect_button_down"]

@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://font/new_dynamicfont.tres" type="DynamicFont" id=1]
+
+[sub_resource type="Gradient" id=1]
+offsets = PoolRealArray( 0 )
+colors = PoolColorArray( 0, 0, 0, 0.133333 )
+
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
+width = 120
+
+[node name="Username" type="Label"]
+margin_left = -50.0
+margin_top = -25.0
+margin_right = 48.0
+margin_bottom = 23.0
+rect_scale = Vector2( 0.25, 0.25 )
+rect_pivot_offset = Vector2( 50, 25 )
+custom_fonts/font = ExtResource( 1 )
+text = "test1234"
+align = 1
+valign = 1
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 50, 25 )
+scale = Vector2( 2, 56 )
+texture = SubResource( 2 )
+

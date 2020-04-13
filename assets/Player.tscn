@@ -1,0 +1,228 @@
+[gd_scene load_steps=19 format=2]
+
+[ext_resource path="res://scripts/Player.gd" type="Script" id=1]
+[ext_resource path="res://scripts/Projectleshoot.gd" type="Script" id=2]
+[ext_resource path="res://scripts/HitScanshoot.gd" type="Script" id=3]
+[ext_resource path="res://assets/Username.tscn" type="PackedScene" id=4]
+[ext_resource path="res://font/new_dynamicfont.tres" type="DynamicFont" id=5]
+[ext_resource path="res://font/Sturkopf.otf" type="DynamicFontData" id=6]
+[ext_resource path="res://ui/aim.png" type="Texture" id=7]
+[ext_resource path="res://scripts/Menu.gd" type="Script" id=8]
+
+[sub_resource type="BoxShape" id=1]
+extents = Vector3( 0.33, 0.33, 1 )
+
+[sub_resource type="CubeMesh" id=2]
+
+[sub_resource type="DynamicFont" id=3]
+size = 128
+font_data = ExtResource( 6 )
+
+[sub_resource type="Gradient" id=4]
+offsets = PoolRealArray( 0 )
+colors = PoolColorArray( 0, 0, 0, 0.341176 )
+
+[sub_resource type="GradientTexture" id=5]
+gradient = SubResource( 4 )
+width = 200
+
+[sub_resource type="DynamicFont" id=6]
+size = 300
+outline_size = 2
+outline_color = Color( 0, 0, 0, 0.329412 )
+extra_spacing_top = -8
+font_data = ExtResource( 6 )
+
+[sub_resource type="Gradient" id=7]
+offsets = PoolRealArray( 0 )
+colors = PoolColorArray( 1, 0, 0, 0.207843 )
+
+[sub_resource type="GradientTexture" id=8]
+gradient = SubResource( 7 )
+width = 159
+
+[sub_resource type="Animation" id=9]
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("hurt:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 0, 0, 0 ), Color( 1, 0, 0, 1 ), Color( 1, 0, 0, 1 ), Color( 1, 0, 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("../Camera:translation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.3, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0.6, 0 ), Vector3( 0, 0.7, 0 ), Vector3( 0, 0.7, 0 ), Vector3( 0, 0.6, 0 ) ]
+}
+
+[sub_resource type="Animation" id=10]
+length = 8.0
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 7, 8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[node name="Player" type="KinematicBody" groups=[
+"player",
+]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3096, 1.96221, -1.39734 )
+script = ExtResource( 1 )
+
+[node name="Projectile Based Weapon" type="Spatial" parent="."]
+script = ExtResource( 2 )
+
+[node name="Hitscan Weapon" type="Spatial" parent="."]
+script = ExtResource( 3 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-008, -1, 0, 1, -4.37114e-008, 0, 0, 0 )
+shape = SubResource( 1 )
+
+[node name="Camera" type="Camera" parent="."]
+editor/display_folded = true
+transform = Transform( -1, 0, -8.74228e-008, 0, 1, 0, 8.74228e-008, 0, -1, 0, 0.7, 0 )
+
+[node name="weapons" type="Spatial" parent="Camera"]
+
+[node name="RayCast" type="RayCast" parent="Camera/weapons"]
+transform = Transform( -1, 0, 8.74228e-008, 0, 1, 0, -8.74228e-008, 0, -1, 0, 0, 0 )
+enabled = true
+cast_to = Vector3( 0, 0, 50 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+transform = Transform( 0.333823, 0, 0, 0, 1, 0, 0, 0, 0.333823, 0, 0, 0 )
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="RayCast" type="RayCast" parent="."]
+enabled = true
+cast_to = Vector3( 0, -1.01, 0 )
+
+[node name="Username" parent="." instance=ExtResource( 4 )]
+rect_scale = Vector2( 0.5, 0.5 )
+
+[node name="Control" type="Control" parent="."]
+editor/display_folded = true
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="respawn" type="Button" parent="Control"]
+margin_left = 384.398
+margin_top = 363.608
+margin_right = 816.398
+margin_bottom = 472.608
+rect_scale = Vector2( 0.5, 0.5 )
+custom_fonts/font = ExtResource( 5 )
+text = "space to respawn"
+flat = true
+
+[node name="health" type="Label" parent="Control"]
+editor/display_folded = true
+margin_left = 897.125
+margin_top = 506.909
+margin_right = 945.125
+margin_bottom = 577.909
+rect_scale = Vector2( 0.5, 0.5 )
+custom_fonts/font = SubResource( 3 )
+text = "100"
+
+[node name="Sprite2" type="Sprite" parent="Control/health"]
+position = Vector2( 51.0801, 74.6167 )
+scale = Vector2( 0.791593, 131.65 )
+z_index = -1
+texture = SubResource( 5 )
+
+[node name="you are dead" type="Label" parent="Control"]
+modulate = Color( 1, 0, 0, 1 )
+margin_left = 260.0
+margin_top = 204.0
+margin_right = 1176.0
+margin_bottom = 551.0
+rect_scale = Vector2( 0.5, 0.5 )
+custom_fonts/font = SubResource( 6 )
+text = "you are dead"
+
+[node name="hurt" type="Sprite" parent="Control"]
+modulate = Color( 1, 0, 0, 0 )
+position = Vector2( 509.001, 307.332 )
+scale = Vector2( 7.15454, 730.814 )
+z_index = -1
+texture = SubResource( 8 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Control"]
+anims/hurt = SubResource( 9 )
+
+[node name="aim" type="Sprite" parent="Control"]
+modulate = Color( 0.266667, 0.945098, 0.309804, 0.741176 )
+position = Vector2( 512, 300 )
+texture = ExtResource( 7 )
+
+[node name="Tutorial" type="Label" parent="Control"]
+editor/display_folded = true
+modulate = Color( 1, 1, 1, 0 )
+margin_left = 120.0
+margin_top = 156.842
+margin_right = 353.0
+margin_bottom = 561.842
+rect_scale = Vector2( 0.5, 0.5 )
+custom_fonts/font = ExtResource( 5 )
+text = "W: Move Forward
+S: Move Back
+D: Move Right
+A: Move Left
+
+Enter: use Chat
+Mouse: Look Around
+Space: Jump
+Right Mouse: Shoot"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Control/Tutorial"]
+autoplay = "fade inout"
+"anims/fade inout" = SubResource( 10 )
+
+[node name="Sprite3" type="Sprite" parent="Control/Tutorial"]
+modulate = Color( 1, 1, 1, 0.509804 )
+position = Vector2( 119.012, 227.005 )
+scale = Vector2( 2.05475, 493.755 )
+z_index = -1
+texture = SubResource( 5 )
+
+[node name="Menu" type="Control" parent="."]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 8 )
+
+[node name="Quit to Menu" type="Button" parent="Menu"]
+margin_left = 470.0
+margin_top = 90.0
+margin_right = 626.0
+margin_bottom = 144.0
+rect_scale = Vector2( 0.5, 0.5 )
+custom_fonts/font = ExtResource( 5 )
+text = "Quit to Menu"
+flat = true
+
+[connection signal="button_down" from="Menu/Quit to Menu" to="Menu" method="_on_Quit_to_Menu_button_down"]

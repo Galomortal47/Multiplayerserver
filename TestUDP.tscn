@@ -1,0 +1,363 @@
+[gd_scene load_steps=19 format=2]
+
+[ext_resource path="res://assets/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scripts/SyncNpcs.gd" type="Script" id=2]
+[ext_resource path="res://enemy/EvilCube.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scripts/InstancesSync.gd" type="Script" id=4]
+[ext_resource path="res://scripts/Chat.gd" type="Script" id=5]
+[ext_resource path="res://font/new_dynamicfont.tres" type="DynamicFont" id=6]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends clsnycudp
+
+var smoth = preload(\"res://scripts/smoothing.gd\").new()
+
+var data2 ={
+	\"pos_x\" : 0,
+	\"pos_y\" : 0,
+	\"pos_z\" : 0,
+}
+var players={
+	\"packet\" : {},
+	\"users\" : [],
+	\"message\" : []
+}
+
+var number_of_players = 4
+export var id = 0
+var player_path = preload(\"res://assets/Player.tscn\")
+
+var player_name
+
+var min_id = 1000
+var max_id = 9999
+var ping = 0
+
+var send_message = \"\"
+var recive_message = \"\"
+
+func _ready():
+#	players.resize(number_of_players)
+	randomize()
+	id = get_node(\"/root/singleton\").username
+	get_child(0).set_name(id)
+	recive_data = players
+#	players_generate()
+
+func players_generate():
+	var children = []
+	children.resize(get_child_count())
+	for a in range(0,get_child_count()):
+		children[a] = get_child(a).get_name()
+	for j in range(0,recive_data.users.size()):
+		if not recive_data == null:
+			if not children.has(recive_data.users[j]):
+				var new_player = player_path.instance()
+				new_player.set_name(str(recive_data.users[j]))
+				new_player.main = false
+				warning(str(\"Player: \", recive_data.users[j] ,\" Has Connected\"))
+				randomize()
+				add_child(new_player)
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _physics_process(delta):
+	disconect()
+	get_player_data()
+	players_generate()
+	syncronize()
+
+func disconect():
+	var children = []
+	children.resize(get_child_count())
+	for a in range(0,get_child_count()):
+		children[a] = get_child(a).get_name()
+	for j in range(0,get_child_count()):
+		if not recive_data.users.has(children[j]):
+			if not children[j] == id:
+				warning(str(\"Warning: \", str(children[j]) ,\" Has Disconnected\"))
+				get_node(children[j]).queue_free()
+
+func warning(var text):
+	get_parent().get_node(\"Chat\").warning(text)
+
+func get_player_data():
+	players[\"Player\"] = data2.duplicate()
+	players[\"Player\"].id = id
+	players[\"Player\"].pos_x = get_node(id).get_translation().x
+	players[\"Player\"].pos_y = get_node(id).get_translation().y
+	players[\"Player\"].pos_z = get_node(id).get_translation().z
+	players[\"Player\"].damage_command = get_node(id).damage_command
+	players[\"Player\"].spawn_command = get_node(id).spawn_command
+	players[\"Player\"].message = send_message
+	players[\"Player\"].rot_y = get_node(id).get_node(\"MeshInstance\").get_rotation().y
+	players[\"Player\"].enemy_data = get_parent().get_node(\"SyncNpcs\").enemy_data
+	players[\"Player\"].time = OS.get_system_time_msecs()
+	json = players
+
+var id_aux = [0]
+
+func syncronize():
+	if not recive_data == null:
+		if recive_data.users.size() == 0:
+			command_damage(players[\"Player\"],0)
+		recive_message = recive_data.message
+		for c in range(0,recive_data.users.size()):
+			var player_name2 = recive_data.users[c]
+			command_damage(recive_data[player_name2],c)
+			if not id == str(player_name2):
+				sync_player_pos_rot(player_name2)
+			id_aux.resize(recive_data.users.size())
+			get_node(player_name2).time = recive_data[player_name2].time
+
+func command_damage(var data,c):
+	var data_id = data.damage_command.id
+	if not data_id == id_aux[c]:
+		if has_node(data.damage_command.target):
+			get_node(data.damage_command.target).health = data.damage_command.health
+			id_aux[c] = data_id
+
+func sync_player_pos_rot(var player_name2):
+	var pos2 = Vector3(recive_data[player_name2].pos_x,recive_data[player_name2].pos_y,recive_data[player_name2].pos_z)
+	get_node(player_name2).set_translation(smoth.smoothing(pos2,get_node(player_name2).translation))
+	get_node(player_name2).set_rotation(Vector3(0,smoth.smoothing(recive_data[player_name2].rot_y,get_node(player_name2).get_rotation().y),0))"
+
+[sub_resource type="PlaneMesh" id=2]
+size = Vector2( 50, 50 )
+
+[sub_resource type="BoxShape" id=3]
+extents = Vector3( 25, 1, 25 )
+
+[sub_resource type="BoxShape" id=4]
+
+[sub_resource type="BoxShape" id=5]
+extents = Vector3( 1, 1.59697, 1 )
+
+[sub_resource type="BoxShape" id=6]
+extents = Vector3( 0.314189, 1.17105, 1 )
+
+[sub_resource type="CubeMesh" id=7]
+
+[sub_resource type="Environment" id=8]
+ambient_light_color = Color( 0.564706, 0.682353, 0.717647, 1 )
+ssao_intensity = 2.0
+ssao_color = Color( 0.192157, 0.32549, 0.32549, 1 )
+ssao_quality = 2
+dof_blur_far_quality = 2
+dof_blur_near_quality = 2
+
+[sub_resource type="Animation" id=9]
+length = 5.0
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 3.9, 5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 4.522, 0 ), Vector2( 4.522, -50 ), Vector2( 4.522, -50 ), Vector2( 4.522, -100 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1, 3.9, 5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 0.960784, 0, 1 ), Color( 1, 0.960784, 0, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Gradient" id=10]
+offsets = PoolRealArray( 0 )
+colors = PoolColorArray( 0, 0, 0, 0.129412 )
+
+[sub_resource type="GradientTexture" id=11]
+gradient = SubResource( 10 )
+width = 1000
+
+[sub_resource type="Animation" id=12]
+length = 0.8
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:text")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ "Trying to Reconnect to the Server |", "Trying to Reconnect to the Server /", "Trying to Reconnect to the Server -", "Trying to Reconnect to the Server \\" ]
+}
+
+[node name="Test1" type="Spatial"]
+
+[node name="PlayersSync" type="Spatial" parent="."]
+script = SubResource( 1 )
+
+[node name="Player_main" parent="PlayersSync" instance=ExtResource( 1 )]
+
+[node name="SyncNpcs" type="Spatial" parent="."]
+script = ExtResource( 2 )
+
+[node name="Evil Cube" parent="SyncNpcs" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20.3471, 1, 1.01309 )
+
+[node name="Evil Cube2" parent="SyncNpcs" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20.3471, 1, 9.45567 )
+
+[node name="Evil Cube3" parent="SyncNpcs" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20.3471, 1, -5.7108 )
+
+[node name="instancesSync" type="Spatial" parent="."]
+script = ExtResource( 4 )
+
+[node name="Static" type="Spatial" parent="."]
+editor/display_folded = true
+
+[node name="MeshInstance" type="MeshInstance" parent="Static"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0234647, 4.76837e-007, -0.0165033 )
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="Area" type="StaticBody" parent="Static"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Static/Area"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.923694, 0 )
+shape = SubResource( 3 )
+
+[node name="CollisionShape2" type="CollisionShape" parent="Static/Area"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.88154, 0.0634952, 1.33783 )
+shape = SubResource( 4 )
+
+[node name="CollisionShape3" type="CollisionShape" parent="Static/Area"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.72983, 1.18369, 2.71464 )
+shape = SubResource( 5 )
+
+[node name="CollisionShape4" type="CollisionShape" parent="Static/Area"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.97756, 1.11874, -5.90593 )
+shape = SubResource( 6 )
+
+[node name="MeshInstance2" type="MeshInstance" parent="Static"]
+transform = Transform( 0.890045, 0, 0, 0, 2.04685, 0, 0, 0, 0.890045, 3.78075, 0.575683, 2.72558 )
+mesh = SubResource( 7 )
+material/0 = null
+
+[node name="MeshInstance3" type="MeshInstance" parent="Static"]
+transform = Transform( 0.890045, 0, 0, 0, 2.04685, 0, 0, 0, 0.890045, -3.88515, -1.01347, 1.33161 )
+mesh = SubResource( 7 )
+material/0 = null
+
+[node name="MeshInstance4" type="MeshInstance" parent="Static"]
+transform = Transform( 0.239268, 0, 0, 0, 2.04685, 0, 0, 0, 0.890045, 3.96981, 0.192897, -5.91059 )
+mesh = SubResource( 7 )
+material/0 = null
+
+[node name="DirectionalLight" type="DirectionalLight" parent="Static"]
+transform = Transform( 0.553326, 0.590473, -0.587513, 0, 0.705328, 0.708881, 0.832965, -0.392242, 0.390276, 0, 0, 0 )
+light_energy = 0.9
+shadow_enabled = true
+shadow_bias = 0.0
+directional_shadow_blend_splits = true
+directional_shadow_normal_bias = 0.5
+directional_shadow_bias_split_scale = 0.4
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Static"]
+environment = SubResource( 8 )
+
+[node name="Chat" type="Container" parent="."]
+margin_top = 419.0
+margin_right = 165.0
+margin_bottom = 598.0
+script = ExtResource( 5 )
+
+[node name="Warning" type="Label" parent="Chat"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.522
+margin_right = -135.478
+margin_bottom = -165.0
+rect_scale = Vector2( 0.5, 0.5 )
+custom_fonts/font = ExtResource( 6 )
+text = "test"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Chat/Warning"]
+anims/dissapear = SubResource( 9 )
+
+[node name="show_users" type="RichTextLabel" parent="Chat"]
+visible = false
+margin_left = 256.0
+margin_top = -256.0
+margin_right = 768.0
+rect_scale = Vector2( 0.5, 0.5 )
+rect_clip_content = false
+custom_fonts/normal_font = ExtResource( 6 )
+
+[node name="Sprite2" type="Sprite" parent="Chat/show_users"]
+position = Vector2( -7.67136, -2.74626 )
+scale = Vector2( 1, 500 )
+z_index = -1
+texture = SubResource( 11 )
+centered = false
+
+[node name="Send" type="TextEdit" parent="Chat"]
+anchor_right = 0.48
+margin_left = 10.0
+margin_top = 150.0
+margin_right = 230.8
+margin_bottom = 205.0
+rect_scale = Vector2( 0.5, 0.5 )
+custom_fonts/font = ExtResource( 6 )
+breakpoint_gutter = true
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Chat"]
+margin_left = 10.0
+margin_top = 20.0
+margin_right = 577.33
+margin_bottom = 240.0
+rect_scale = Vector2( 0.5, 0.5 )
+rect_clip_content = false
+custom_fonts/normal_font = ExtResource( 6 )
+scroll_following = true
+
+[node name="Sprite" type="Sprite" parent="Chat"]
+position = Vector2( 10, 0 )
+scale = Vector2( 0.290367, 150 )
+z_index = -1
+texture = SubResource( 11 )
+centered = false
+
+[node name="ping" type="Label" parent="Chat"]
+margin_left = 9.56
+margin_top = -26.07
+margin_right = 102.56
+margin_bottom = 21.93
+rect_scale = Vector2( 0.5, 0.5 )
+custom_fonts/font = ExtResource( 6 )
+text = "ping: 00"
+
+[node name="diconect" type="Label" parent="Chat"]
+margin_left = 9.56
+margin_top = -26.07
+margin_right = 102.56
+margin_bottom = 21.93
+rect_scale = Vector2( 0.5, 0.5 )
+custom_fonts/font = ExtResource( 6 )
+text = "Trying to Reconnect to the Server |"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Chat/diconect"]
+autoplay = "New Anim"
+"anims/New Anim" = SubResource( 12 )
+
+[node name="Timer" type="Timer" parent="Chat"]
+autostart = true
+
+[connection signal="animation_finished" from="Chat/Warning/AnimationPlayer" to="Chat" method="_on_AnimationPlayer_animation_finished"]
+[connection signal="timeout" from="Chat/Timer" to="Chat" method="_on_Timer_timeout"]
