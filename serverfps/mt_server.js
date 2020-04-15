@@ -42,7 +42,7 @@ if (cluster.isMaster) {
   for (let i = 1; i <= numCPUs; i++) {
     env = {
       node_id: i,
-      port: 8082 + i -1
+      port: 8083 + i -1
     }
     cluster.fork(env);  }
 

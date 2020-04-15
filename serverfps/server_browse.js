@@ -3,7 +3,7 @@ var server_data = {
   data: {
 	  servername: 'STONKS BR',
 	  time: 100,
-	  port: 8082,
+	  port: 8083,
 	  ip: '0.0.0.0',
     gamemode: 'deathmatch',
     playercount: 8,
@@ -20,7 +20,7 @@ var net = require('net');
 var refresh_rate = 2000;
 
 var HOST = '127.0.0.1';
-var PORT = 8081;
+var PORT = 8082;
 
 var client = new net.Socket();
 

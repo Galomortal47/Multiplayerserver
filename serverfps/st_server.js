@@ -13,7 +13,7 @@ var sockets = [];
 var player_sockets = {};
 var player_servers = {};
 var room_aux = {}
-var port = 8082;
+var port = 8083;
 
 const server_list = require('./server_browse.js');
 

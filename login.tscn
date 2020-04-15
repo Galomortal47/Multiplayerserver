@@ -152,7 +152,7 @@ margin_right = 300.0
 margin_bottom = 111.63
 rect_scale = Vector2( 0.5, 0.5 )
 custom_fonts/font = ExtResource( 2 )
-text = "8081"
+text = "8082"
 
 [node name="Local" type="Button" parent="Login/Server"]
 visible = false
@@ -204,7 +204,7 @@ margin_right = 895.0
 margin_bottom = -213.379
 rect_scale = Vector2( 0.5, 0.5 )
 custom_fonts/font = ExtResource( 2 )
-text = "ServerName:                  Gamemode:                  Map:                      Players:               Ping:"
+text = "  ServerName:                  Gamemode:                  Map:                      Players:               Ping:"
 valign = 1
 autowrap = true
 
