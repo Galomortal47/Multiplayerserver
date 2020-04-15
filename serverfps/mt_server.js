@@ -26,7 +26,7 @@ var port = process.env.port;
 const server_list = require('./server_browse.js');
 
 setInterval(function () {
-  server_list.browse_list(player_sockets.length);
+  server_list.browse_list(sockets.length);
 }, 3000);
 
 
