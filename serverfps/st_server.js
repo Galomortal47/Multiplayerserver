@@ -13,12 +13,12 @@ var sockets = [];
 var player_sockets = {};
 var player_servers = {};
 var room_aux = {}
-var port = 8083;
+var port = 8087;
 
 const server_list = require('./server_browse.js');
 
 setInterval(function () {
-  server_list.browse_list(sockets.length);
+  server_list.browse_list(sockets.length,port);
 }, 3000);
 
 process.on('uncaughtException', function (err) {

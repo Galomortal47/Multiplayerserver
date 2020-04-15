@@ -36,11 +36,12 @@ client.connect(PORT, HOST, function() {
 });
 
 module.exports = {
-  browse_list: function (data) {
+  browse_list: function (data,port) {
     var date = new Date();
     var time = date.getTime();
     server_data.data.time = time;
     server_data.data.playercount = data;
+    server_data.data.port = port;
     final_pac = JSON.stringify(server_data);
     buffer.writeUInt32LE(final_pac.length);
     client.write(final_pac);
