@@ -19,7 +19,7 @@ var net = require('net');
 
 var refresh_rate = 2000;
 
-var HOST = '127.0.0.1';
+var HOST = '35.198.0.32';
 var PORT = 8082;
 
 var client = new net.Socket();
@@ -43,7 +43,9 @@ module.exports = {
     server_data.data.playercount = data;
     server_data.data.port = port;
     final_pac = JSON.stringify(server_data);
-    buffer.writeUInt32LE(final_pac.length);
-    client.write(final_pac);
+    try{
+      buffer.writeUInt32LE(final_pac.length);
+      client.write(final_pac);
+    }catch(e){}
   }
 };
