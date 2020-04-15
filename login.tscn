@@ -80,7 +80,6 @@ custom_fonts/font = ExtResource( 2 )
 text = "Login"
 
 [node name="Join" type="Button" parent="Login/Login"]
-visible = false
 margin_left = 46.9701
 margin_top = 37.149
 margin_right = 151.971
@@ -227,7 +226,6 @@ script = ExtResource( 4 )
 
 [node name="Timer" type="Timer" parent="Login/RegisterLogin"]
 process_mode = 0
-autostart = true
 
 [connection signal="button_down" from="Login/Login/Login" to="Login" method="_on_Login_button_down"]
 [connection signal="button_down" from="Login/Login/Join" to="Login" method="_on_Join_button_down"]

@@ -21,8 +21,8 @@ func _ready():
 	if data.auto_log == "true":
 		_on_Connect_button_down()
 		_on_Login_button_down()
-	_on_Connect_button_down()
-	get_node('RegisterLogin').connect_server()
+#	_on_Connect_button_down()
+#	get_node('RegisterLogin').connect_server()
 	pass # Replace with function body.
 
 func load_data():
@@ -63,6 +63,7 @@ func _on_TCP_button_down():
 	pass # Replace with function body.
 
 func _on_Connect_button_down():
+	get_parent().get_node('Login/RegisterLogin/Timer').start()
 	get_data()
 	singleton_data()
 	get_node("Server").hide()
