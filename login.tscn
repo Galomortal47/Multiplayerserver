@@ -88,6 +88,15 @@ rect_scale = Vector2( 0.5, 0.5 )
 custom_fonts/font = ExtResource( 2 )
 text = "Join"
 
+[node name="Refresh" type="Button" parent="Login/Login"]
+margin_left = 204.311
+margin_top = -40.4135
+margin_right = 309.312
+margin_bottom = 13.5865
+rect_scale = Vector2( 0.5, 0.5 )
+custom_fonts/font = ExtResource( 2 )
+text = "Refresh"
+
 [node name="Register" type="Button" parent="Login/Login"]
 margin_left = -100.918
 margin_top = 36.4139
@@ -108,7 +117,6 @@ text = "Reload"
 script = ExtResource( 3 )
 
 [node name="Server" type="Control" parent="Login"]
-editor/display_folded = true
 margin_right = 40.0
 margin_bottom = 40.0
 
@@ -193,6 +201,27 @@ rect_scale = Vector2( 0.5, 0.5 )
 custom_fonts/font = ExtResource( 2 )
 text = "Connect"
 
+[node name="Server_list" type="Control" parent="Login"]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="Label4" type="Label" parent="Login/Server_list"]
+margin_left = -302.0
+margin_top = -263.379
+margin_right = 895.0
+margin_bottom = -213.379
+rect_scale = Vector2( 0.5, 0.5 )
+custom_fonts/font = ExtResource( 2 )
+text = "ServerName:                  Gamemode:                  Map:                      Players:               Ping:"
+valign = 1
+autowrap = true
+
+[node name="MenuButton" type="ItemList" parent="Login/Server_list"]
+margin_left = -300.0
+margin_top = -241.0
+margin_right = 300.0
+margin_bottom = 4.0
+
 [node name="server_message" type="Label" parent="Login"]
 margin_left = -97.36
 margin_right = -57.36
@@ -206,9 +235,10 @@ script = ExtResource( 4 )
 
 [connection signal="button_down" from="Login/Login/Login" to="Login" method="_on_Login_button_down"]
 [connection signal="button_down" from="Login/Login/Join" to="Login" method="_on_Join_button_down"]
+[connection signal="button_down" from="Login/Login/Refresh" to="Login/RegisterLogin" method="_on_Refresh_button_down"]
 [connection signal="button_down" from="Login/Login/Register" to="Login" method="_on_Register_button_down"]
 [connection signal="button_down" from="Login/Login/Reload" to="Login/Login/Reload" method="_on_Reload_button_down"]
 [connection signal="button_down" from="Login/Server/Local" to="Login" method="_on_Button2_button_down"]
 [connection signal="button_down" from="Login/Server/TCP-UDP" to="Login" method="_on_TCP_button_down"]
-[connection signal="button_down" from="Login/Server/Connect" to="Login" method="_on_Connect_button_down"]
 [connection signal="button_down" from="Login/Server/Connect" to="Login/RegisterLogin" method="_on_Connect_button_down"]
+[connection signal="button_down" from="Login/Server/Connect" to="Login" method="_on_Connect_button_down"]

@@ -13,6 +13,13 @@ var sockets = [];
 var player_sockets = {};
 var player_servers = {};
 var room_aux = {}
+var port = 8082;
+
+const server_list = require('./server_browse.js');
+
+setInterval(function () {
+  server_list.browse_list(sockets.length);
+}, 3000);
 
 process.on('uncaughtException', function (err) {
   console.log('Caught exception: ', err);
@@ -76,7 +83,7 @@ process.on('uncaughtException', function (err) {
   				packet = room_aux;
   		  }
       });
-  }).listen(8082);
+  }).listen(port);
 
 function IsValidJSONString(str) {
     try {

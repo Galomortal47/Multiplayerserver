@@ -93,5 +93,5 @@ func _on_Register_button_down():
 
 func _on_Join_button_down():
 	get_tree().change_scene(main_scene)
-	singleton_data()
+#	singleton_data()
 	pass # Replace with function body.

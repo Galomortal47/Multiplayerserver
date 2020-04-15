@@ -306,6 +306,8 @@ same_column_width = true
 fixed_column_width = 400
 
 [node name="Add to Friend" type="Button" parent="Chat/show_users/MenuButton"]
+editor/display_folded = true
+visible = false
 margin_left = 231.4
 margin_top = 275.387
 margin_right = 398.4
@@ -323,6 +325,8 @@ texture = SubResource( 16 )
 centered = false
 
 [node name="Ban User" type="Button" parent="Chat/show_users/MenuButton"]
+editor/display_folded = true
+visible = false
 margin_left = 231.4
 margin_top = 325.179
 margin_right = 398.4

@@ -29,28 +29,10 @@ const userDataSchema = mongoose.Schema({
 	content: Object
 }, {collection: 'user_Data'});
 
-const serverData = mongoose.Schema({
-	// _id: Number,
-	severname: {type: String, required: true, index : {unique: true}},
-	time: {type: Number, required: true},
-	port: {type: Number, required: true},
-	ip: {type: Number, required: true},
-  gamemode: {type: String, required: false},
-  playercount: {type: Number, required: false},
-  playermax: {type: Number, required: false},
-  map: {type: String, required: false},
-  password: {type: String, required: false}
-}, {collection: 'server_Data'});
-
 var UserData = mongoose.model('userData', userDataSchema);
 
 //data for testing purporses
-var data = {
-	//	username: "",
-	//	user_password: "",
-	//	email: "",
-	//	content: {pos_x : 0, pos_z : 0, pos_y : 0}
-		}
+var data = {};
 
 module.exports = function(){
 

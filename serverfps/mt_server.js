@@ -1,8 +1,8 @@
 const cluster = require('cluster');
 const redis = require('./cache.js');
-var myCache = require('cluster-node-cache')(cluster, {stdTTL: 0.5, checkperiod: 3});
-const numCPUs = 24;//require('os').cpus().length;
 var redis_db = new redis;
+var myCache = require('cluster-node-cache')(cluster, {stdTTL: 0.5, checkperiod: 3});
+const numCPUs = 16;//require('os').cpus().length;
 var packet = 'hello';
 var client = this;
 var total_players = 0;
@@ -22,6 +22,13 @@ var users_cache = [''];
 var refresh_rate = 50;
 var node_id = process.env.node_id;
 var port = process.env.port;
+
+const server_list = require('./server_browse.js');
+
+setInterval(function () {
+  server_list.browse_list(player_sockets.length);
+}, 3000);
+
 
 process.on('uncaughtException', function (err) {
   console.log('Caught exception: ', err);

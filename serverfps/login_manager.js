@@ -3,8 +3,11 @@ var database = require("./database.js");
 var admin_password ="G6ZXBmEf";
 var buffer = new Buffer.alloc(4);
 var db = new database();
-var port = 8082;
+var port = 8081;
+const redis = require('./cache.js');
+var redis_db = new redis;
 var ban_list = [];
+var server_list = {};
 
 var login_data = {
 		username: "",
@@ -42,10 +45,15 @@ var data_share;
 					register(socket,json_data);
 					login(socket,json_data);
 					admin_autentication(json_data,socket);
-					}
-		  	}
-      });
+					server_store(socket,json_data);
+				}
+		  }
+    });
 }).listen(port);
+
+setInterval(function clean_sever_list() {
+	server_list = {};
+}, 3000);
 
 function initialized_ban_list(){
 	var ban_data = {};
@@ -54,8 +62,23 @@ function initialized_ban_list(){
 	ban_data.user_password = admin_password;
 	db.create(ban_data);
 	var login_operation = db.read({username: 'ban_list'});
-	console.log(login_operation);
 	ban_list = login_operation.content.ban_list;
+}
+
+function server_store(socket,json_data){
+	if (json_data.operator == "Server"){
+		json_data.data.ip = socket.address().address;
+		server_list.server_message = "Server List Arrived";
+		var date = new Date();
+		var time = date.getTime();
+		json_data.data.time = json_data.data.time - time;
+		server_list[json_data.data.servername] = json_data.data;
+		//console.log(server_list);
+	}
+	if (json_data.operator == "Server_send"){
+		data_to_client(socket,server_list);
+		//console.log(server_list);
+	}
 }
 
 function admin_autentication(json_data,socket){
