@@ -30,10 +30,12 @@ process.on('uncaughtException', function (err) {
   console.log('Caught exception: ', err);
 });
 
-client.connect(PORT, HOST, function() {
-    console.log('Client connected to: ' + HOST + ':' + PORT);
+  try{
+    client.connect(PORT, HOST, function() {
+        console.log('Client connected to: ' + HOST + ':' + PORT);
     // Write a message to the socket as soon as the client is connected, the server will receive it as message from the client
-});
+  });
+}catch(e){}
 
 module.exports = {
   browse_list: function (data,port) {
