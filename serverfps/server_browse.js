@@ -30,25 +30,11 @@ process.on('uncaughtException', function (err) {
   console.log('Caught exception: ', err);
 });
 
-const publicIp = require('public-ip');
-var ipv4
-var ipv6
-
-(async () => {
-	ipv4 = await publicIp.v4();
-  console.log(ipv4);
-	//=> '46.5.21.123'
-
-	ipv6 = await publicIp.v6();
-  console.log(ipv6);
-	//=> 'fe80::200:f8ff:fe21:67cf'
-})();
-
 module.exports = {
-  browse_list: function (data,port) {
+  browse_list: function (data,port,ipv4) {
     var date = new Date();
     var time = date.getTime();
-    server_data.data.ip = ipv4;
+    server_data.data.ipv4 = ipv4;
     server_data.data.time = time;
     server_data.data.playercount = data;
     server_data.data.port = port;

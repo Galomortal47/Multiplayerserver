@@ -56,8 +56,7 @@ func _physics_process(delta):
 						var ping = y.time
 						var spc = "                  "
 						var text = x + spc +  y.gamemode + spc + y.map + spc +  str(y.playercount) + " / " +  str(y.playermax) + spc + str(ping)
-						print(y.port)
-						print(y.ip)
+						print(y)
 						get_parent().get_node("Server_list/MenuButton").add_item(text)
 		message = recive_data
 	if recive_data.has("server_message"):
