@@ -13,31 +13,29 @@ var sockets = [];
 var player_sockets = {};
 var player_servers = {};
 var room_aux = {}
-var port = 8087;
-
-const server_list = require('./server_browse.js');
-
-setInterval(function () {
-  server_list.browse_list(sockets.length,port);
-}, 3000);
+var port = process.env.port;
+var refresh_rate = process.env.refresh_rate;
 
 process.on('uncaughtException', function (err) {
   console.log('Caught exception: ', err);
 });
 
+initiate();
+
   net.createServer(function(socket){ //connectionListener
   socket.bufferisnotfull = true;
   sockets.push(socket);
-  initiate();
 
   socket.on('drain', () => {
       socket.bufferisnotfull = true;
   });
 
   	socket.on('error', function(err){
-  		var index = sockets.indexOf(socket);
-  		sockets.splice(index,1);
-  		deleteuser(index);
+        var index = sockets.indexOf(socket);
+      if(!(index == -1)){
+  		  sockets.splice(index,1);
+  		  deleteuser(index);
+      }
   	});
 
   	var size_int = 0;
@@ -110,7 +108,7 @@ setInterval(async function () {
       }catch(e){}
     }
 	}
-}, 16);
+}, refresh_rate);
 
 // deleting user
 function deleteuser(index){
@@ -120,5 +118,5 @@ function deleteuser(index){
 	}
 
 function initiate(){
-	console.log("client initeaded, total players: " +  sockets.length.toString());
+	console.log("Thread Initialized to port: " + port);
 	}

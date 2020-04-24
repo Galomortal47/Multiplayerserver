@@ -152,7 +152,6 @@ function IsValidJSONString(str) {
 //data to single client
 function data_to_client(socket,send_data){
 	msg_string = JSON.stringify(send_data);
-	console.log(msg_string);
 	buffer.writeUInt32LE(msg_string.length);
 	socket.write(buffer);
 	socket.write(msg_string);

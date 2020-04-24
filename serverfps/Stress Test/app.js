@@ -1,14 +1,14 @@
 const cp = require("child_process");
 
-var test = 60;
-var threads = 1;
-var servers_n = 4;
+var test = 360;
+var threads = 4;
+var servers_n = 1;
 var i = 1
 
 setInterval(function () {
 	if(i < test){
 		var env = {
-			port : 8082 + Math.floor((i-1)/(test/threads)),
+			port : 8083 + Math.floor((i)/(test/threads)),
 			server:'t'+ (Math.floor(((i*servers_n)-1)/test)+1),
 			ip: "127.0.0.1",//"35.198.0.32"
 			refresh_rate: 50
@@ -16,4 +16,4 @@ setInterval(function () {
 		var p1 = cp.fork("stress.js", {env:env});
 		i += 1;
 	}
-}, 150);
+}, 50);

@@ -30,13 +30,6 @@ process.on('uncaughtException', function (err) {
   console.log('Caught exception: ', err);
 });
 
-  try{
-    client.connect(PORT, HOST, function() {
-        console.log('Client connected to: ' + HOST + ':' + PORT);
-    // Write a message to the socket as soon as the client is connected, the server will receive it as message from the client
-  });
-}catch(e){}
-
 module.exports = {
   browse_list: function (data,port) {
     var date = new Date();
@@ -48,6 +41,14 @@ module.exports = {
     try{
       buffer.writeUInt32LE(final_pac.length);
       client.write(final_pac);
+    }catch(e){}
+  },
+  connect_to_server: function (port,ip) {
+    try{
+        client.connect(port, ip, function() {
+            console.log('Client connected to: ' + ip + ':' + port);
+        // Write a message to the socket as soon as the client is connected, the server will receive it as message from the client
+      });
     }catch(e){}
   }
 };

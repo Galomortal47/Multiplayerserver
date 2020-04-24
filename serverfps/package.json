@@ -7,7 +7,7 @@
 		"redis": "*",
 		"cluster-node-cache": "*"
 	},
-	"bin": "server.js",
+	"bin": "st_server.js",
 	"pkg": {
 		"assets": [
 			"views/**/*"
