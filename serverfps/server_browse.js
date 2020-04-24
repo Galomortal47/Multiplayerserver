@@ -53,6 +53,7 @@ module.exports = {
     server_data.data.playercount = data;
     server_data.data.port = port;
     final_pac = JSON.stringify(server_data);
+    console.log(server_data);
     try{
       buffer.writeUInt32LE(final_pac.length);
       client.write(final_pac);
