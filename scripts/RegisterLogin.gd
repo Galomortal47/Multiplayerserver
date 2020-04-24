@@ -79,8 +79,8 @@ func _on_MenuButton_item_activated(index):
 	var user_index = users[index+1]
 	if recive_data.has(user_index):
 		var data = recive_data[user_index]
-		var ip = data.ip
-		ip.erase(0,7)
+		var ip = data.ipv4
+#		ip.erase(0,7)
 		get_node("/root/singleton").ip = ip
 		get_node("/root/singleton").port = data.port
 		get_tree().change_scene(get_parent().main_scene)
