@@ -12,6 +12,8 @@ var port
 var password
 
 func _ready():
+	get_node('Login').hide()
+	get_node('Server').show()
 	randomize()
 	var id = "Player"+str(int(rand_range(1000,9999)))
 	get_node("Login/username_enter").set_text(id)
@@ -63,7 +65,6 @@ func _on_TCP_button_down():
 	pass # Replace with function body.
 
 func _on_Connect_button_down():
-	get_parent().get_node('Login/RegisterLogin/Timer').start()
 	get_data()
 	singleton_data()
 	get_node("Server").hide()

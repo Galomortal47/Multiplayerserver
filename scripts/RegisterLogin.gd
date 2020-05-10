@@ -16,6 +16,7 @@ var loged = true
 #	print(recive_data)
 
 func _ready():
+#	_on_Refresh_server_list_button_down()
 	connect = false
 
 func register(username ,password):
@@ -25,6 +26,7 @@ func register(username ,password):
 	players["login_register"].password = password
 #	print(players)
 	json = players
+	print(json)
 	send_and_recive_data()
 
 
@@ -36,7 +38,7 @@ func login(username, password):
 	json = players
 	login = true
 	send_and_recive_data()
-
+	print(json)
 var users = []
 
 func _physics_process(delta):
@@ -64,16 +66,8 @@ func _physics_process(delta):
 
 func _on_Connect_button_down():
 	connect_server()
+	_on_Refresh_server_list_button_down()
 	pass # Replace with function body.
-
-func _on_Timer_timeout():
-	get_parent().get_node("Server_list/MenuButton").show()
-	players["operator"] = "Server_send"
-	players["login_register"] = login_data.duplicate()
-	json = players
-	send_and_recive_data()
-	pass # Replace with function body.
-
 
 func _on_MenuButton_item_activated(index):
 	var user_index = users[index+1]
@@ -84,4 +78,13 @@ func _on_MenuButton_item_activated(index):
 		get_node("/root/singleton").ip = ip
 		get_node("/root/singleton").port = data.port
 		get_tree().change_scene(get_parent().main_scene)
+	pass # Replace with function body.
+
+
+func _on_Refresh_server_list_button_down():
+	get_parent().get_node("Server_list/MenuButton").show()
+	players["operator"] = "Server_send"
+	players["login_register"] = login_data.duplicate()
+	json = players
+	send_and_recive_data()
 	pass # Replace with function body.

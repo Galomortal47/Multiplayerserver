@@ -22,7 +22,6 @@ margin_bottom = 480.0
 script = ExtResource( 1 )
 
 [node name="Login" type="Control" parent="Login"]
-visible = false
 margin_top = 60.0
 margin_right = 40.0
 margin_bottom = 100.0
@@ -86,7 +85,7 @@ margin_right = 151.971
 margin_bottom = 91.149
 rect_scale = Vector2( 0.5, 0.5 )
 custom_fonts/font = ExtResource( 2 )
-text = "Join"
+text = "Join Local"
 
 [node name="Register" type="Button" parent="Login/Login"]
 margin_left = -100.918
@@ -108,6 +107,7 @@ text = "Reload"
 script = ExtResource( 3 )
 
 [node name="Server" type="Control" parent="Login"]
+visible = false
 margin_right = 40.0
 margin_bottom = 40.0
 
@@ -196,6 +196,15 @@ text = "Connect"
 margin_right = 40.0
 margin_bottom = 40.0
 
+[node name="Refresh server list" type="Button" parent="Login/Server_list"]
+margin_left = -297.975
+margin_top = -7.91373
+margin_right = -75.9752
+margin_bottom = 46.0863
+rect_scale = Vector2( 0.5, 0.5 )
+custom_fonts/font = ExtResource( 2 )
+text = "Refresh server list"
+
 [node name="Label4" type="Label" parent="Login/Server_list"]
 margin_left = -302.0
 margin_top = -263.379
@@ -213,6 +222,16 @@ margin_top = -241.0
 margin_right = 300.0
 margin_bottom = -16.0
 
+[node name="Reload2" type="Button" parent="Login/Server_list"]
+margin_left = 432.497
+margin_top = 273.268
+margin_right = 542.497
+margin_bottom = 328.268
+rect_scale = Vector2( 0.5, 0.5 )
+custom_fonts/font = ExtResource( 2 )
+text = "Reload"
+script = ExtResource( 3 )
+
 [node name="server_message" type="Label" parent="Login"]
 margin_left = -97.36
 margin_right = -57.36
@@ -224,9 +243,6 @@ custom_fonts/font = ExtResource( 2 )
 visible = false
 script = ExtResource( 4 )
 
-[node name="Timer" type="Timer" parent="Login/RegisterLogin"]
-process_mode = 0
-
 [connection signal="button_down" from="Login/Login/Login" to="Login" method="_on_Login_button_down"]
 [connection signal="button_down" from="Login/Login/Join" to="Login" method="_on_Join_button_down"]
 [connection signal="button_down" from="Login/Login/Register" to="Login" method="_on_Register_button_down"]
@@ -235,5 +251,6 @@ process_mode = 0
 [connection signal="button_down" from="Login/Server/TCP-UDP" to="Login" method="_on_TCP_button_down"]
 [connection signal="button_down" from="Login/Server/Connect" to="Login/RegisterLogin" method="_on_Connect_button_down"]
 [connection signal="button_down" from="Login/Server/Connect" to="Login" method="_on_Connect_button_down"]
+[connection signal="button_down" from="Login/Server_list/Refresh server list" to="Login/RegisterLogin" method="_on_Refresh_server_list_button_down"]
 [connection signal="item_activated" from="Login/Server_list/MenuButton" to="Login/RegisterLogin" method="_on_MenuButton_item_activated"]
-[connection signal="timeout" from="Login/RegisterLogin/Timer" to="Login/RegisterLogin" method="_on_Timer_timeout"]
+[connection signal="button_down" from="Login/Server_list/Reload2" to="Login/Server_list/Reload2" method="_on_Reload_button_down"]

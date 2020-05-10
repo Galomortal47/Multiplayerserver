@@ -25,7 +25,7 @@ initiate();
   net.createServer(function(socket){ //connectionListener
   socket.bufferisnotfull = true;
   sockets.push(socket);
-
+  console.log("player of ip: " + socket.address().address + " was connected to port: " + port );
   socket.on('drain', () => {
       socket.bufferisnotfull = true;
   });
@@ -43,7 +43,7 @@ initiate();
 
   	socket.on('data', function(data){
   		// Cutting the Irelevants Parts of the buffer and converting to Json
-  		string = data.toString();
+      string = data.toString();
   		if (string[0] == "{"){
   			var fixs = string;
   		}
@@ -112,9 +112,11 @@ setInterval(async function () {
 
 // deleting user
 function deleteuser(index){
-	console.log("removing player: " + users[index] + " of index: " + index);
+	console.log("removing player: " + users[index] + " of index: " + index + " from port: " + port);
 	users.splice(index,1);
-	delete room[player_servers[users[index]]][users[index]];
+  if(!(room[player_servers[users[index]]] == null)){
+   delete room[player_servers[users[index]]][users[index]];
+  }
 	}
 
 function initiate(){

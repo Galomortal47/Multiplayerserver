@@ -41,6 +41,7 @@ var data_share;
 				if((ban_list.includes(socket.address().address))){
 						data_to_client(socket,{server_message: "you where banned"});
 				}else{
+					console.log(string);
 					let json_data = JSON.parse(string);
 					register(socket,json_data);
 					login(socket,json_data);
